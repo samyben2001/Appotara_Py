@@ -87,16 +87,13 @@
         Rectangle:
             pos: self.pos
             size: self.size
-    ScrollView:
-        do_scroll_x: False
-        do_scroll_y: True
-        StackLayout:
-            id: stack_files
-            size_hint: 1, .8
-            padding: 20
-            spacing: 20
-            InfoButton:
-            InfoButton:
+    StackLayout:
+        id: stack_files
+        size_hint: 1, .8
+        padding: 20
+        spacing: 20
+        InfoButton:
+        InfoButton:
     BoxLayout:
         size_hint: .15, .1
         padding: 3
