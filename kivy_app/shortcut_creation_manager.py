@@ -22,6 +22,7 @@ class ShortcutCreationManager:
         self.rect_btn = RoundedRectangle()
         self.rect_cancel_btn = RoundedRectangle()
         self.popup_name_shortcut = Popup()
+        
         for base, dirs, files in os.walk(self.base_path + "/bats"):
             for Files in files:
                 self.bat_name += 1
@@ -29,13 +30,16 @@ class ShortcutCreationManager:
     def set_shortcut_name(self, instance, text):
         self.shortcut_name = instance.text
 
+    # action called when shortcut creation is validated
     def on_create_shortcut_callback(self, instance):
         self.__create_shortcut()
 
+    # action called when shortcut creation is canceled
     def on_cancel_callback(self, instance):
         os.remove(f"{self.base_path}\\bats\\{self.bat_name}.bat")
         self.popup_name_shortcut.dismiss()
 
+    # create and open a validation pop up for shortcut creation
     def call_popup_shortcut_name(self, default_name):
         content = BoxLayout(orientation='vertical',
                             spacing=dp(15),
@@ -109,7 +113,9 @@ class ShortcutCreationManager:
         self.rect_btn.pos = self.create_button.pos
         self.rect_btn.size = self.create_button.size
 
+    # cshortcut creation on desktop
     def __create_shortcut(self):
+        # check if a shortcut with same name already exist on desktop
         if os.path.exists(self.desktop_location + f"\\{self.shortcut_name}.lnk"):
             os.remove(f"{self.base_path}\\bats\\{self.bat_name}.bat")
             popup = Popup(title='ERROR: Shortcut Name',
@@ -131,8 +137,10 @@ class ShortcutCreationManager:
                           separator_color=(1, 1, 1, 1))
             popup.open()
 
+    # set values for shortcut creation and open validation pop up
     def create_shortcut(self, file_paths, icon_src):
         self.icon_src = icon_src
+        
         if self.icon_src == "Images/neural.ico":
             self.icon_src = f"{self.base_path}\\{icon_src}"
 
@@ -143,6 +151,7 @@ class ShortcutCreationManager:
 
         self.call_popup_shortcut_name(self.shortcut_name)
 
+    # get the directory path and filename of each app
     @staticmethod
     def create_dict_with_path_and_exe(file_paths):
         file_dict = {}
@@ -152,6 +161,7 @@ class ShortcutCreationManager:
             file_dict[f"file{str(i)}"] = {"path": directory_path, "filename": filename}
         return file_dict
 
+    # create bat file that contains the script that launched the apps 'simultanously'
     def fill_and_create_bat_file_for_shortcut(self, files_list):
         txt = "@echo off"
         for file, file_info in files_list.items():

@@ -11,6 +11,7 @@ class ShortcutCreation(BoxLayout):
     img_src = StringProperty("Images/neural.ico")
     scm = ShortcutCreationManager()
 
+    # send path and icon to 'Shortcut Creation Manager' to create the shortcut
     def on_create_shortcut_click(self, paths_list):
         if len(paths_list) > 1:
             self.scm.create_shortcut(paths_list, self.img_src)
@@ -22,8 +23,9 @@ class ShortcutCreation(BoxLayout):
                           separator_color=(1, 1, 1, 1))
             popup.open()
 
+    # Get path for the icon of the shortcut
     def on_select_icon_click(self):
-        path = filechooser.open_file(title="Pick a ICO file..",
+        icon_path = filechooser.open_file(title="Pick a ICO file..",
                                      filters=[("Icon (.ico)", "*.ico")])
-        if path:
-            self.img_src = path[0]
+        if icon_path:
+            self.img_src = icon_path[0]

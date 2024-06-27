@@ -20,7 +20,6 @@ Builder.load_file("D:\\Documents\\Projets Dev\\MultipleProgramsLauncher-main\\ki
 class MainWidget(BoxLayout):
     paths = ListProperty([])
 
-
 class MultipleProgramsLauncherApp(MDApp):
     pass
 

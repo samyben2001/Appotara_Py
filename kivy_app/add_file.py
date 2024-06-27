@@ -13,6 +13,7 @@ class RoundedButton(Button):
 class RemoveFileButton(RoundedButton):
     info_btn: ObjectProperty()
 
+    # remove app from list
     def on_remove_file_click(self, path_list):
         info_layout = self.parent.parent
         path_txt = info_layout.children[1].text
@@ -20,15 +21,17 @@ class RemoveFileButton(RoundedButton):
         if path_txt in path_list:
             path_list.remove(path_txt)
         info_layout.parent.remove_widget(info_layout)
-
-
+        
 class AddFile(BoxLayout):
     stack_files = ObjectProperty()
 
 
 class AddMoreFileButton(Button):
+    max_files: int = 5
+    
+    # add new line in app list
     def on_add_more_file_click(self):
-        if len(self.parent.parent.stack_files.children) <= 4:
+        if len(self.parent.parent.stack_files.children) + 1 <= self.max_files:
             b = InfoButton()
             rmb = RemoveFileButton()
             b.children[0].add_widget(rmb)
@@ -45,6 +48,7 @@ class AddMoreFileButton(Button):
 class InfoButton(BoxLayout):
     path_str = StringProperty("")
 
+    # get app path from filechooser
     def on_select_file_click(self, paths_list):
         print(filechooser)
         path = filechooser.open_file(title="Pick a EXE file..",
@@ -52,6 +56,7 @@ class InfoButton(BoxLayout):
         if not path:
             return
 
+        # check if path already in list
         if path[0] in paths_list:
             popup = Popup(title='ERROR: File already selected',
                           content=Label(text='You have already selected this file!',
